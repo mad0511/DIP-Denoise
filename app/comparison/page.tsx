@@ -34,8 +34,8 @@ export default function ComparisonPage() {
 
         // Add the image name as a query parameter
         const url = name
-          ? `http://localhost:5001/getProcessedImage?imageName=${encodeURIComponent(name)}`
-          : "http://localhost:5001/getProcessedImage"
+          ? `http://3.129.42.101:5001/getProcessedImage?imageName=${encodeURIComponent(name)}`
+          : "http://3.129.42.101:5001/getProcessedImage"
 
         const response = await fetch(url)
 
