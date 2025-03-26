@@ -1,0 +1,30 @@
+// next.config.js
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: '/processImage',
+        destination: 'http://3.144.127.241:5001/processImage',
+      },
+      {
+        source: '/getProcessedImage',
+        destination: 'http://3.144.127.241:5001/getProcessedImage',
+      },
+    ];
+  },
+  // Optional: Configure headers if needed
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE,PATCH,OPTIONS' },
+          { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
+        ],
+      },
+    ];
+  },
+};

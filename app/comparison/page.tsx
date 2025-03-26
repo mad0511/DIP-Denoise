@@ -1,65 +1,64 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, Loader2 } from "lucide-react"
-import ImageComparisonSlider from "@/components/image-comparison-slider"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import ImageComparisonSlider from "@/components/image-comparison-slider";
 
 export default function ComparisonPage() {
-  const [originalImage, setOriginalImage] = useState<string | null>(null)
-  const [processedImage, setProcessedImage] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [imageName, setImageName] = useState<string | null>(null)
-  const router = useRouter()
+  const [originalImage, setOriginalImage] = useState<string | null>(null);
+  const [processedImage, setProcessedImage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [imageName, setImageName] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Get the original image and image name from sessionStorage
-    const original = sessionStorage.getItem("originalImage")
-    const name = sessionStorage.getItem("imageName")
+    const original = sessionStorage.getItem("originalImage");
+    const name = sessionStorage.getItem("imageName");
 
     if (!original) {
-      router.push("/")
-      return
+      router.push("/");
+      return;
     }
 
-    setOriginalImage(original)
-    setImageName(name)
+    setOriginalImage(original);
+    setImageName(name);
 
     // Fetch the processed image from the API with the image name
     const fetchProcessedImage = async () => {
       try {
-        setIsLoading(true)
+        setIsLoading(true);
 
-        // Add the image name as a query parameter
+        // Retrieving the processed image
         const url = name
-          ? `http://3.144.127.241:5001/getProcessedImage?imageName=${encodeURIComponent(name)}`
-          : "http://3.144.127.241:5001/getProcessedImage"
-
-        const response = await fetch(url)
+          ? `/getProcessedImage?imageName=${encodeURIComponent(name)}`
+          : "/getProcessedImage";
+        const response = await fetch(url);
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.status}`)
+          throw new Error(`Error: ${response.status}`);
         }
 
-        const blob = await response.blob()
-        const imageUrl = URL.createObjectURL(blob)
-        setProcessedImage(imageUrl)
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        setProcessedImage(imageUrl);
       } catch (err) {
-        console.error("Error fetching processed image:", err)
-        setError("Failed to load the processed image. Please try again.")
+        console.error("Error fetching processed image:", err);
+        setError("Failed to load the processed image. Please try again.");
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchProcessedImage()
-  }, [router])
+    fetchProcessedImage();
+  }, [router]);
 
   const handleBackClick = () => {
-    router.push("/")
-  }
+    router.push("/");
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 md:p-24">
@@ -72,7 +71,9 @@ export default function ComparisonPage() {
         <h1 className="text-3xl font-bold mb-2">Image Comparison</h1>
         <p className="text-gray-600 mb-8">
           Drag the slider to compare the original and processed images.
-          {imageName && <span className="block mt-1 text-sm">Image: {imageName}</span>}
+          {imageName && (
+            <span className="block mt-1 text-sm">Image: {imageName}</span>
+          )}
         </p>
 
         {isLoading ? (
@@ -83,7 +84,11 @@ export default function ComparisonPage() {
         ) : error ? (
           <div className="flex flex-col items-center justify-center h-[400px] border rounded-lg">
             <p className="text-red-500">{error}</p>
-            <Button variant="outline" className="mt-4" onClick={handleBackClick}>
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={handleBackClick}
+            >
               Try Again
             </Button>
           </div>
@@ -100,6 +105,5 @@ export default function ComparisonPage() {
         )}
       </div>
     </main>
-  )
+  );
 }
-

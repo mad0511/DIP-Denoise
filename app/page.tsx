@@ -61,7 +61,7 @@ export default function Home() {
       formData.append("imageName", selectedImage.name)
 
       // Send image to backend for processing
-      const response = await fetch("http://3.144.127.241:5001/processImage", {
+      const response = await fetch("/processImage", {
         method: "POST",
         body: formData,
       })
