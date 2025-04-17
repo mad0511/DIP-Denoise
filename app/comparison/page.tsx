@@ -68,7 +68,7 @@ export default function ComparisonPage() {
           Back to Upload
         </Button>
 
-        <h1 className="text-3xl font-bold mb-2">Image Comparison</h1>
+        <h1 className="text-3xl font-bold mb-2">DIP Cell Quantization</h1>
         <p className="text-gray-600 mb-8">
           Drag the slider to compare the original and processed images.
           {imageName && (

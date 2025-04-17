@@ -27,8 +27,8 @@ export default function Home() {
     }
 
     const options = {
-      maxSizeMB: 0.5, // Maximum file size in MB (adjust as needed)
-      maxWidthOrHeight: 800, // Max width or height
+      maxSizeMB: 3, // Maximum file size in MB (adjust as needed)
+      maxWidthOrHeight: 2500, // Max width or height
       useWebWorker: true, // Improves performance
     };
     
@@ -88,7 +88,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-24">
-      <h1 className="text-3xl font-bold mb-2 text-center">Image Processor</h1>
+      <h1 className="text-3xl font-bold mb-2 text-center">DIP Cell Quantization</h1>
       <p className="text-gray-600 mb-8 text-center max-w-2xl">
         Upload an image to process and compare the before and after results.
       </p>
