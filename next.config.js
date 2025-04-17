@@ -6,11 +6,11 @@ module.exports = {
     return [
       {
         source: '/processImage',
-        destination: 'http://3.144.127.241:5001/processImage',
+        destination: 'http://3.148.185.190:5001/processImage',
       },
       {
         source: '/getProcessedImage',
-        destination: 'http://3.144.127.241:5001/getProcessedImage',
+        destination: 'http://3.148.185.190:5001/getProcessedImage',
       },
     ];
   },
