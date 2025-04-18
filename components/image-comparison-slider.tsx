@@ -78,7 +78,7 @@ export default function ImageComparisonSlider({
   }, [isDragging])
 
   return (
-    <div className="relative w-full mx-auto overflow-hidden rounded-lg shadow-lg aspect-[16/9]" ref={containerRef}>
+    <div className="relative w-full mx-auto overflow-hidden rounded-lg shadow-lg aspect-square" ref={containerRef}>
       {/* After Image (Full width, shown in the background) */}
       <div className="absolute inset-0 w-full h-full">
         <Image

@@ -91,7 +91,9 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-24">
-      <h1 className="text-3xl font-bold mb-2 text-center">DIP Cell Quantization</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">DIP Based Denoising</h1>
+      <h3 className="text-l font-regular mb-3 text-left">Denoising Smartphone-Based
+      Fluorescence Microscopy Imaging using Histogram thresholding and Deep Image Prior</h3>
       <p className="text-gray-600 mb-8 text-center max-w-2xl">
         Upload an image to process and compare the before and after results.
       </p>
