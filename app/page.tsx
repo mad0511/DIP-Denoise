@@ -1,13 +1,13 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Upload, ImageIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import imageCompression from "browser-image-compression"
 
 export default function Home() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -20,22 +20,14 @@ export default function Home() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // Check if file is an image
     if (!file.type.startsWith("image/")) {
       setError("Please select an image file")
       return
     }
 
-    const options = {
-      maxSizeMB: 3, // Maximum file size in MB (adjust as needed)
-      maxWidthOrHeight: 2500, // Max width or height
-      useWebWorker: true, // Improves performance
-    };
-    
     setSelectedImage(file)
     setError(null)
 
-    // Create preview URL
     const fileReader = new FileReader()
     fileReader.onload = () => {
       setPreviewUrl(fileReader.result as string)
@@ -53,14 +45,29 @@ export default function Home() {
     setError(null)
 
     try {
-      // Create form data to send to API
+      const options = {
+        maxSizeMB: 1, // Max target size
+        maxWidthOrHeight: 1024, // Resize to max dimension
+        useWebWorker: true,
+        initialQuality: 1, // Set compression quality
+        fileType: "image/jpeg",
+        name: selectedImage.name // Force JPEG for better compression
+      }
+
+      console.log("Original File size (MB):", (selectedImage.size / (1024 * 1024)).toFixed(2))
+
+      const compressedBlob = await imageCompression(selectedImage, options)
+      const compressedFile = new File([compressedBlob], selectedImage.name, {
+        type: compressedBlob.type,
+      })
+      console.log("Compressed File size (MB):", (compressedFile.size / (1024 * 1024)).toFixed(2))
+
       const formData = new FormData()
-      formData.append("image", selectedImage)
 
-      // Add the image name to the form data
-      formData.append("imageName", selectedImage.name)
+      formData.append("image", compressedFile)
+      formData.append("imageName", compressedFile.name)
+      console.log("Compressed File name:", compressedFile.name)
 
-      // Send image to backend for processing
       const response = await fetch("/processImage", {
         method: "POST",
         body: formData,
@@ -70,13 +77,9 @@ export default function Home() {
         throw new Error(`Error: ${response.status}`)
       }
 
-      // Store the original image in sessionStorage to pass to the comparison page
       sessionStorage.setItem("originalImage", previewUrl as string)
+      sessionStorage.setItem("imageName", compressedFile.name)
 
-      // Store the image name in sessionStorage
-      sessionStorage.setItem("imageName", selectedImage.name)
-
-      // Navigate to comparison page
       router.push("/comparison")
     } catch (err) {
       console.error("Error processing image:", err)
@@ -142,4 +145,3 @@ export default function Home() {
     </main>
   )
 }
-
