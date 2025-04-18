@@ -7,7 +7,10 @@ import torchvision.transforms as transforms
 from flask_cors import CORS
 import numpy as np
 from dip_code import get_model_net, torch_to_np
+
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
 CORS(app)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
