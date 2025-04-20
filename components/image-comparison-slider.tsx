@@ -21,7 +21,35 @@ export default function ImageComparisonSlider({
 }: ImageComparisonSliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
+  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const img = document.createElement('img')
+    img.onload = () => {
+      // Calculate dimensions that maintain aspect ratio and fit viewport
+      const maxWidth = Math.min(window.innerWidth - 48, 1200) // 48px for padding
+      const maxHeight = window.innerHeight - 200 // Leave space for header and padding
+      
+      const aspectRatio = img.width / img.height
+      let width = img.width
+      let height = img.height
+
+      // Scale down if image is larger than viewport
+      if (width > maxWidth) {
+        width = maxWidth
+        height = width / aspectRatio
+      }
+      
+      if (height > maxHeight) {
+        height = maxHeight
+        width = height * aspectRatio
+      }
+
+      setImageDimensions({ width, height })
+    }
+    img.src = beforeImage
+  }, [beforeImage])
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -78,7 +106,16 @@ export default function ImageComparisonSlider({
   }, [isDragging])
 
   return (
-    <div className="relative w-full mx-auto overflow-hidden rounded-lg shadow-lg aspect-square" ref={containerRef}>
+    <div 
+      className="relative mx-auto overflow-hidden rounded-lg shadow-lg" 
+      ref={containerRef}
+      style={{
+        width: imageDimensions.width > 0 ? `${imageDimensions.width}px` : '100%',
+        height: imageDimensions.height > 0 ? `${imageDimensions.height}px` : 'auto',
+        maxWidth: '100%',
+        aspectRatio: imageDimensions.width > 0 ? `${imageDimensions.width} / ${imageDimensions.height}` : 'auto'
+      }}
+    >
       {/* After Image (Full width, shown in the background) */}
       <div className="absolute inset-0 w-full h-full">
         <Image
@@ -88,6 +125,7 @@ export default function ImageComparisonSlider({
           className="object-cover"
           priority
           unoptimized // Use this to handle data URLs
+          sizes={`${imageDimensions.width}px`}
         />
         <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
           {afterLabel}
@@ -108,6 +146,7 @@ export default function ImageComparisonSlider({
           className="object-cover"
           priority
           unoptimized // Use this to handle data URLs
+          sizes={`${imageDimensions.width}px`}
         />
         <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
           {beforeLabel}
