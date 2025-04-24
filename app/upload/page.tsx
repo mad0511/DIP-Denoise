@@ -123,7 +123,7 @@ export default function UploadPage() {
 
         <div className="mx-auto w-full max-w-md">
 
-          <BackgroundGradient className="rounded-[22px] p-4 sm:p-10 bg-background">
+        <BackgroundGradient className="rounded-[22px] border border-border sm:p-4 bg-background">
             <div
               className="group relative mb-6 flex aspect-video cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-border bg-accent/50 transition-colors hover:border-primary/50"
               onClick={() => document.getElementById("image-upload")?.click()}
