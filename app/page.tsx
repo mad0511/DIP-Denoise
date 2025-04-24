@@ -36,7 +36,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-visible px-4 py-24 text-center md:px-8">
         <div className="relative z-10 mx-auto max-w-5xl">
-          <div className="mb-6 inline-flex items-center rounded-full border border-neutral-800 bg-background/80 px-3 py-1 text-sm backdrop-blur">
+          <div className="mb-6 inline-flex items-center rounded-full border border-border bg-background/80 px-3 py-1 text-sm backdrop-blur">
             <span className="mr-2 rounded-full bg-primary/10 p-1">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
             </span>
@@ -157,7 +157,7 @@ export default function LandingPage() {
       <section className="relative px-4 py-28 md:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl">
+            <h2 className="mb-4 text-3xl font-bold leading-tight tracking-tight text-muted-foreground md:text-4xl">
               Our Technology
             </h2>
             <p className="mx-auto max-w-2xl text-muted-foreground">
@@ -173,7 +173,7 @@ export default function LandingPage() {
             >
               <div className="grid gap-8 md:grid-cols-2">
                 <div>
-                  <h3 className="mb-4 text-2xl font-semibold leading-tight text-white">
+                  <h3 className="mb-4 text-2xl font-semibold leading-tight text-muted-foreground">
                     Deep Image Prior Architecture
                   </h3>
                   <p className="mb-4 text-muted-foreground">
