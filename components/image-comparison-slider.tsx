@@ -25,12 +25,12 @@ export default function ImageComparisonSlider({
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const img = document.createElement('img')
+    const img = document.createElement("img")
     img.onload = () => {
       // Calculate dimensions that maintain aspect ratio and fit viewport
       const maxWidth = Math.min(window.innerWidth - 48, 1200) // 48px for padding
-      const maxHeight = window.innerHeight - 200 // Leave space for header and padding
-      
+      const maxHeight = window.innerHeight - 300 // Leave space for header and padding
+
       const aspectRatio = img.width / img.height
       let width = img.width
       let height = img.height
@@ -40,7 +40,7 @@ export default function ImageComparisonSlider({
         width = maxWidth
         height = width / aspectRatio
       }
-      
+
       if (height > maxHeight) {
         height = maxHeight
         width = height * aspectRatio
@@ -106,18 +106,18 @@ export default function ImageComparisonSlider({
   }, [isDragging])
 
   return (
-    <div 
-      className="relative mx-auto overflow-hidden rounded-lg shadow-lg" 
+    <div
+      className="relative mx-auto overflow-hidden rounded-lg shadow-sm transition-all duration-300"
       ref={containerRef}
       style={{
-        width: imageDimensions.width > 0 ? `${imageDimensions.width}px` : '100%',
-        height: imageDimensions.height > 0 ? `${imageDimensions.height}px` : 'auto',
-        maxWidth: '100%',
-        aspectRatio: imageDimensions.width > 0 ? `${imageDimensions.width} / ${imageDimensions.height}` : 'auto'
+        width: imageDimensions.width > 0 ? `${imageDimensions.width}px` : "100%",
+        height: imageDimensions.height > 0 ? `${imageDimensions.height}px` : "auto",
+        maxWidth: "100%",
+        aspectRatio: imageDimensions.width > 0 ? `${imageDimensions.width} / ${imageDimensions.height}` : "auto",
       }}
     >
       {/* After Image (Full width, shown in the background) */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 h-full w-full">
         <Image
           src={afterImage || "/placeholder.svg"}
           alt={afterLabel}
@@ -127,7 +127,7 @@ export default function ImageComparisonSlider({
           unoptimized // Use this to handle data URLs
           sizes={`${imageDimensions.width}px`}
         />
-        <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute bottom-4 right-4 rounded-full bg-black/70 px-3 py-1 text-sm font-medium text-white">
           {afterLabel}
         </div>
       </div>
@@ -148,26 +148,25 @@ export default function ImageComparisonSlider({
           unoptimized // Use this to handle data URLs
           sizes={`${imageDimensions.width}px`}
         />
-        <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute bottom-4 left-4 rounded-full bg-black/70 px-3 py-1 text-sm font-medium text-white">
           {beforeLabel}
         </div>
       </div>
 
       {/* Slider */}
       <div
-        className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-[0_0_5px_rgba(0,0,0,0.5)]"
-        style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}
+        className="absolute top-0 bottom-0 z-10 w-0.5 cursor-ew-resize bg-white"
+        style={{ left: `${sliderPosition}%` }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
+        <div className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md">
           <div className="flex items-center">
-            <ChevronLeft className="h-4 w-4 text-gray-600" />
-            <ChevronRight className="h-4 w-4 text-gray-600" />
+            <ChevronLeft className="h-3 w-3 text-gray-600" />
+            <ChevronRight className="h-3 w-3 text-gray-600" />
           </div>
         </div>
       </div>
     </div>
   )
 }
-
