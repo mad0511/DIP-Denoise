@@ -26,10 +26,12 @@ def get_model_image(image_file, model):
 
     image = Image.open(image_file).convert("L")  # Convert to grayscale if necessary
     print(f"Original image size: {image.size}")
+    
+    width, height = image.size
 
     # Define the transformation
     transform = transforms.Compose([
-        transforms.Resize((1184, 896)),  # Resize the image ((1184, 896))
+        transforms.Resize((height, width)),  # Resize the image ((1184, 896))
         transforms.ToTensor()            # Convert the image to a tensor for the given model
     ])
 
